@@ -2,7 +2,7 @@
 
 /* ROOM */
 
-const roomName = "Room Name";
+const roomName = "FUTSAL 3V3";
 const maxPlayers = 20;
 const roomPublic = true;
 const token = ""; // Insert token here
@@ -23,7 +23,7 @@ var adminPassword = 1000 + getRandomInt(9000);
 /* OPTIONS */
 
 var drawTimeLimit = Infinity;
-var maxAdmins = 2;
+var maxAdmins = 1;
 var disableBans = true;
 
 /* PLAYERS */
@@ -229,14 +229,14 @@ function checkTime() {
 			return;
 		}
 		goldenGoal = true;
-		room.sendAnnouncement("⚽ First goal wins !", null, announcementColor, "bold", Notification.CHAT);
+		room.sendAnnouncement("⚽ Ko postigne gol je pobednik !", null, announcementColor, "bold", Notification.CHAT);
 	}
 	if (Math.abs(drawTimeLimit * 60 - scores.time - 60) <= 0.01 && players.length > 2) {
 		if (checkTimeVariable === false) {
 			checkTimeVariable = true;
 			checkDrawWarning = true;
 			setTimeout(() => { checkTimeVariable = false; }, 10);
-			if (activePlay) room.sendAnnouncement("⌛ 60 seconds left until draw !", null, announcementColor, "bold", Notification.CHAT);
+			if (activePlay) room.sendAnnouncement("⌛ 60 sekundi do kraja !", null, announcementColor, "bold", Notification.CHAT);
 		}
 	}
 	if (Math.abs(scores.time - drawTimeLimit * 60) <= 0.01 && players.length > 2 && checkDrawWarning) {
@@ -258,10 +258,10 @@ function instantRestart() {
 function endGame(winner) { // no stopGame function in it
 	const scores = room.getScores();
 	if (winner === Team.RED) {
-		room.sendAnnouncement(`✨ Red Team won ${scores.red} - ${scores.blue} !`, null, redColor, "bold", Notification.CHAT);
+		room.sendAnnouncement(`✨ Crveni tim je pobedio ${scores.red} - ${scores.blue} !`, null, redColor, "bold", Notification.CHAT);
 	}
 	else if (winner === Team.BLUE) {
-		room.sendAnnouncement(`✨ Blue Team won ${scores.blue} - ${scores.red} !`, null, blueColor, "bold", Notification.CHAT);
+		room.sendAnnouncement(`✨ Plavi tim je pobedio ${scores.blue} - ${scores.red} !`, null, blueColor, "bold", Notification.CHAT);
 	}
 	else {
 		room.sendAnnouncement("💤 Draw limit reached !", null, announcementColor, "bold", Notification.CHAT);
@@ -325,7 +325,7 @@ function getStats() { // gives the speed of the ball
 /* PLAYER MOVEMENT */
 
 room.onPlayerJoin = function (player) {
-	room.sendAnnouncement(`[PV] 👋 Welcome ${player.name} !`, player.id, welcomeColor, "bold", Notification.CHAT);
+	room.sendAnnouncement(`[HaxBot] 👋 Dobrodosao ${player.name} !`, player.id, welcomeColor, "bold", Notification.CHAT);
 	updateTeams();
 	updateAdmins();
 	playerAuth[player.id] = player.auth;
@@ -402,14 +402,14 @@ room.onTeamGoal = function (team) {
 	if (lastPlayersTouched[0] !== null) {
 		if (lastPlayersTouched[0].team === team) {
 			if (lastPlayersTouched[1] !== null && lastPlayersTouched[1].team === team) {
-				room.sendAnnouncement(`⚽ ${getTime(scores)} Goal by ${lastPlayersTouched[0].name} ! Assist by ${lastPlayersTouched[1].name}. Goal speed : ${ballSpeed.toFixed(2)}km/h.`, null, (team === Team.RED ? redColor : blueColor), null, Notification.CHAT);
+				room.sendAnnouncement(`⚽ ${getTime(scores)} Gol je postigao ${lastPlayersTouched[0].name} ! Asistencijom ${lastPlayersTouched[1].name}. Gol brzinom : ${ballSpeed.toFixed(2)}km/h.`, null, (team === Team.RED ? redColor : blueColor), null, Notification.CHAT);
 			}
 			else {
-				room.sendAnnouncement(`⚽ ${getTime(scores)} Goal by ${lastPlayersTouched[0].name} ! Goal speed : ${ballSpeed.toFixed(2)}km/h.`, null, (team === Team.RED ? redColor : blueColor), null, Notification.CHAT);
+				room.sendAnnouncement(`⚽ ${getTime(scores)} Gol je postigao ${lastPlayersTouched[0].name} ! Gol brzinom : ${ballSpeed.toFixed(2)}km/h.`, null, (team === Team.RED ? redColor : blueColor), null, Notification.CHAT);
 			}
 		}
 		else {
-			room.sendAnnouncement(`😂 ${getTime(scores)} Own goal by ${lastPlayersTouched[0].name} ! Goal speed : ${ballSpeed.toFixed(2)}km/h.`, null, (team === Team.RED ? redColor : blueColor), null, Notification.CHAT);
+			room.sendAnnouncement(`😂 ${getTime(scores)} Autogol ${lastPlayersTouched[0].name} ! Gol brzinom : ${ballSpeed.toFixed(2)}km/h.`, null, (team === Team.RED ? redColor : blueColor), null, Notification.CHAT);
 		}
 	}
 	if (scores.scoreLimit !== 0 && (scores.red === scores.scoreLimit || scores.blue === scores.scoreLimit || goldenGoal === true)) {
